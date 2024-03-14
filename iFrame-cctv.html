@@ -8,23 +8,18 @@
           params = loc.split('?')[1],
           video = document.getElementById('video');
 
-      //var queryString = window.location.search;
-      //var urlParams = new URLSearchParams(queryString);
-      //var root = urlParams.get('root');
+      var queryString = window.location.search;
+      var urlParams = new URLSearchParams(queryString);
+      var url = urlParams.get('url');
       //var id = urlParams.get('id');
       //var ext = urlParams.get('ext');
-
-      var root = 'https://itsvideo.arlingtonva.us:8011/live/cam';
-      var id = '297';
-      var ext = '.stream/playlist.m3u8';
-      
       //video.src = video.src + '?' + params;​​​​​​​​​​​​​​​​
 
       if (Hls.isSupported()) {
         var hls = new Hls({
           debug: true,
         });
-        hls.loadSource(root.concat(id,ext));
+        hls.loadSource(url);
         hls.attachMedia(video);
         hls.on(Hls.Events.MEDIA_ATTACHED, function () {
           video.muted = true;
@@ -35,7 +30,7 @@
       // When the browser has built-in HLS support (check using `canPlayType`), we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video element through the `src` property.
       // This is using the built-in support of the plain video element, without using hls.js.
       else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = root.concat(id,ext);
+        video.src = url;
         video.addEventListener('canplay', function () {
           video.play();
         });
